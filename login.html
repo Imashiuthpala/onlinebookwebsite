@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #ddd;
+            margin-top: auto;
+        }
+
+        footer h2 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        footer p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        footer .social-links {
+            margin: 10px 0;
+        }
+
+        footer .social-links a {
+            margin: 0 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        footer .social-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('login-form').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form from submitting normally
+
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const errorMessage = document.getElementById('error-message');
+
+                // Basic client-side validation
+                if (username === '' || password === '') {
+                    errorMessage.textContent = 'Please fill in all fields.';
+                    return;
+                }
+
+                // Prepare data for AJAX request
+                const data = {
+                    username: username,
+                    password: password
+                };
+
+                // Send AJAX request
+                fetch('login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        window.location.href = 'dashboard.html'; // Redirect to the dashboard on successful login
+                    } else {
+                        errorMessage.textContent = result.message; // Display error message
+                    }
+                })
+                .catch(error => {
+                    errorMessage.textContent = 'An error occurred. Please try again later.';
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Login to Your Account</h2>
+    <form id="login-form">
+        <div class="input-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" id="login-button">Login</button>
+        <p id="error-message"></p>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </form>
+</div>
+
+<footer>
+    <h2>Contact Us</h2>
+    <p>Email: support@onlinebookstore.com | Phone: (123) 456-7890</p>
+    <div class="social-links">
+        <a href="https://facebook.com" target="_blank">Facebook</a>
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+    </div>
+    <p>&copy; 2024 Online Bookstore. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

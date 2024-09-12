@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Bookstore - Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    /* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+nav ul {
+    background-color: #333;
+    padding: 10px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Filter Section */
+.filter-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.filter-section label {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.filter-section select {
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Books Section */
+.books-section {
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px auto;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.book-item {
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.book-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+.book-item h3 {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.book-item p {
+    color: #666;
+    font-size: 16px;
+}
+
+.book-item button {
+    padding: 10px 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.book-item button:hover {
+    background-color: #555;
+}
+</style>
+<script>
+    // Array of book data
+const books = [
+    { title: "Book One", category: "fiction", price: "$19.99", image: "book1.jpg" },
+    { title: "Book Two", category: "non-fiction", price: "$24.99", image: "book2.jpg" },
+    { title: "Book Three", category: "science-fiction", price: "$14.99", image: "book3.jpg" },
+    { title: "Book Four", category: "fantasy", price: "$29.99", image: "book4.jpg" },
+    { title: "Book Five", category: "mystery", price: "$9.99", image: "book5.jpg" }
+];
+
+// Function to load books dynamically
+function loadBooks(booksToDisplay) {
+    const booksGrid = document.getElementById("booksGrid");
+    booksGrid.innerHTML = ""; // Clear the grid
+
+    booksToDisplay.forEach(book => {
+        const bookItem = document.createElement("div");
+        bookItem.className = "book-item";
+
+        bookItem.innerHTML = `
+            <img src="${book.image}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p>${book.price}</p>
+            <button>Add to Cart</button>
+        `;
+
+        booksGrid.appendChild(bookItem);
+    });
+}
+
+// Function to filter books by category
+function filterBooksByCategory() {
+    const selectedCategory = document.getElementById("categoryDropdown").value;
+    let filteredBooks;
+
+    if (selectedCategory === "all") {
+        filteredBooks = books;
+    } else {
+        filteredBooks = books.filter(book => book.category === selectedCategory);
+    }
+
+    loadBooks(filteredBooks);
+}
+
+// Load all books when the page loads
+window.onload = function() {
+    loadBooks(books);
+};
+function loadBooksFromServer() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "fetchBooks.php", true);
+    xhr.onload = function() {
+        if (this.status === 200) {
+            const booksFromServer = JSON.parse(this.responseText);
+            loadBooks(booksFromServer);
+        }
+    };
+    xhr.send();
+}
+
+// Use loadBooksFromServer instead of loadBooks when loading the books
+window.onload = function() {
+    loadBooksFromServer();
+};
+
+</script>
+
+</head>
+<body>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Books</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Book Categories Dropdown -->
+    <section class="filter-section">
+        <label for="categoryDropdown">Filter by Category:</label>
+        <select id="categoryDropdown" onchange="filterBooksByCategory()">
+            <option value="all">All Categories</option>
+            <option value="fiction">Fiction</option>
+            <option value="non-fiction">Non-Fiction</option>
+            <option value="science-fiction">Science Fiction</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="mystery">Mystery</option>
+        </select>
+    </section>
+
+    <!-- Books Display Section -->
+    <section class="books-section">
+        <div class="books-grid" id="booksGrid">
+            <!-- Dynamic content will be inserted here by JavaScript -->
+        </div>
+    </section>
+
+    <script src="scripts.js"></script>
+
+    <footer>
+        <h2>Contact Us</h2>
+        <p>Email: support@onlinebookstore.com | Phone: (123) 456-7890</p>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank">Facebook</a>
+            <a href="https://twitter.com" target="_blank">Twitter</a>
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+        </div>
+        <p>&copy; 2024 Online Bookstore. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .registration-container {
+            max-width: 450px;
+            margin: 5% auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        footer h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        footer p {
+            color: #555;
+        }
+
+        footer .social-links a {
+            margin: 0 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        footer .social-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('registration-form').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form from submitting normally
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const errorMessage = document.getElementById('error-message');
+
+                // Basic client-side validation
+                if (name === '' || email === '' || password === '') {
+                    errorMessage.textContent = 'Please fill in all fields.';
+                    return;
+                }
+
+                if (!validateEmail(email)) {
+                    errorMessage.textContent = 'Please enter a valid email address.';
+                    return;
+                }
+
+                if (password.length < 6) {
+                    errorMessage.textContent = 'Password must be at least 6 characters long.';
+                    return;
+                }
+
+                // Prepare data for AJAX request
+                const data = {
+                    name: name,
+                    email: email,
+                    password: password
+                };
+
+                // Send AJAX request
+                fetch('register.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        window.location.href = 'login.html'; // Redirect to the login page on successful registration
+                    } else {
+                        errorMessage.textContent = result.message; // Display error message
+                    }
+                })
+                .catch(error => {
+                    errorMessage.textContent = 'An error occurred. Please try again later.';
+                });
+            });
+
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(String(email).toLowerCase());
+            }
+        });
+    </script>
+</head>
+<body>
+
+<div class="registration-container">
+    <h2>Create Your Account</h2>
+    <form id="registration-form">
+        <div class="input-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" id="register-button">Register</button>
+        <p id="error-message"></p>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+</div>
+
+<footer>
+    <h2>Contact Us</h2>
+    <p>Email: support@onlinebookstore.com | Phone: (123) 456-7890</p>
+    <div class="social-links">
+        <a href="https://facebook.com" target="_blank">Facebook</a>
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+    </div>
+    <p>&copy; 2024 Online Bookstore. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

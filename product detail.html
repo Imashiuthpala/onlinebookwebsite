@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details - Online Bookstore</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-image: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        nav ul {
+            background-color: #007bff;
+            padding: 15px;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+
+        nav ul li a:hover {
+            background-color: white;
+            color: #007bff;
+            transition: 0.3s;
+        }
+
+        /* Book Detail Section */
+        .book-detail {
+            display: flex;
+            padding: 40px;
+            background-color: white;
+            max-width: 1000px;
+            margin: 40px auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            align-items: center;
+        }
+
+        .book-image {
+            flex: 1;
+            margin-right: 40px;
+        }
+
+        .book-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-info {
+            flex: 2;
+        }
+
+        .book-info h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .book-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #6c757d;
+        }
+
+        .book-info p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #495057;
+        }
+
+        .book-info .price {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        /* Add to Cart Section */
+        .add-to-cart {
+            display: flex;
+            align-items: center;
+        }
+
+        .add-to-cart label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .add-to-cart input {
+            width: 60px;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 20px;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+        }
+
+        .add-to-cart button {
+            padding: 10px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .add-to-cart button:hover {
+            background-color: #0056b3;
+            transition: 0.3s;
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            margin-top: 40px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        // Simulate a shopping cart array
+        let cart = [];
+
+        // Function to add a book to the cart
+        function addToCart() {
+            // Get the quantity from the input field
+            const quantity = document.getElementById("quantity").value;
+
+            // Simulate the book details (in a real scenario, you'd fetch this dynamically)
+            const book = {
+                title: "Book Title",
+                price: 19.99,
+                quantity: parseInt(quantity),
+            };
+
+            // Add the book to the cart (you might want to check if the book is already in the cart and update the quantity instead)
+            cart.push(book);
+
+            // Call the function to update the cart with AJAX
+            updateCart();
+        }
+
+        // Function to update the cart using AJAX (simulated here)
+        function updateCart() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "updateCart.php", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert("Cart updated successfully!");
+                }
+            };
+
+            // Send the cart data as JSON
+            xhr.send(JSON.stringify(cart));
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Books</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Book Detail Section -->
+    <section class="book-detail">
+        <div class="book-image">
+            <img src="book-cover.jpg" alt="Book Title">
+        </div>
+        <div class="book-info">
+            <h1>Book Title</h1>
+            <h3>by Author Name</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur, lectus id pulvinar sollicitudin, mi justo condimentum erat, sit amet interdum lorem nulla ac metus.</p>
+            <p class="price">$19.99</p>
+
+            <!-- Add to Cart Section -->
+            <div class="add-to-cart">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1">
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h2>Contact Us</h2>
+        <p>Email: support@onlinebookstore.com | Phone: (123) 456-7890</p>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank">Facebook</a>
+            <a href="https://twitter.com" target="_blank">Twitter</a>
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+        </div>
+        <p>&copy; 2024 Online Bookstore. All rights reserved.</p>
+    </footer>
+</body>
+</html>

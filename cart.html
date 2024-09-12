@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Book Store - Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Cart Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Your Cart</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Books</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Cart Items</h2>
+
+        <!-- Cart table placeholder -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="cartItems">
+                <!-- JavaScript will dynamically insert cart items here -->
+                <tr>
+                    <td colspan="4">Your cart is currently empty.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Cart total -->
+        <div class="cart-total">
+            <p>Total: $0.00</p>
+            <button>Proceed to Checkout</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Online Book Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Example cart data for demonstration purposes
+        const cartItems = [
+            { title: "Book One", quantity: 1, price: 19.99 },
+            { title: "Book Two", quantity: 2, price: 24.99 }
+        ];
+
+        // Function to load cart items dynamically
+        function loadCartItems() {
+            const cartTableBody = document.getElementById("cartItems");
+            cartTableBody.innerHTML = ""; // Clear current content
+
+            if (cartItems.length === 0) {
+                cartTableBody.innerHTML = "<tr><td colspan='4'>Your cart is currently empty.</td></tr>";
+            } else {
+                let cartTotal = 0;
+
+                cartItems.forEach(item => {
+                    const total = item.quantity * item.price;
+                    cartTotal += total;
+
+                    const row = `
+                        <tr>
+                            <td>${item.title}</td>
+                            <td>${item.quantity}</td>
+                            <td>$${item.price.toFixed(2)}</td>
+                            <td>$${total.toFixed(2)}</td>
+                        </tr>
+                    `;
+
+                    cartTableBody.innerHTML += row;
+                });
+
+                document.querySelector(".cart-total p").textContent = `Total: $${cartTotal.toFixed(2)}`;
+            }
+        }
+
+        // Load cart items when the page loads
+        window.onload = loadCartItems;
+    </script>
+
+</body>
+</html>
